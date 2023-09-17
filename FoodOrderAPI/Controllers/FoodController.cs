@@ -1,17 +1,14 @@
-﻿using Azure;
-using FoodOrderAPI.Security;
-using FoodOrderEntitie.Models;
-using Microsoft.AspNetCore.Http;
+﻿using FoodOrderEntitie.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Sockets;
 
 namespace FoodOrderAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FoodController : ControllerBase
     {
-        [BasicAuthentication]
         [HttpPost]
         public ActionResult Create(Food food)
         {
@@ -20,6 +17,14 @@ namespace FoodOrderAPI.Controllers
             else
                 return BadRequest();    
             
+        }
+        [HttpDelete("{foodId:int}")]
+        public ActionResult Delete(int foodId)
+        {
+            if (Food.Deletefood(foodId))
+                return Ok();
+            else
+                return BadRequest();
         }
     }
 }

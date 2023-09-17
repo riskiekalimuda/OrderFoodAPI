@@ -7,13 +7,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
 var app = builder.Build();
 
-app.UseMiddleware<BasicAuthHandler>("test");
 
 // Configure the HTTP request pipeline.
 
 app.UseAuthorization();
+
+app.UseAuthentication();
 
 app.MapControllers();
 
